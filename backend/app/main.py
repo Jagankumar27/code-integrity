@@ -6,7 +6,9 @@ from .models import models  # noqa: F401  (register tables)
 from .services.seed import seed_users
 
 app = FastAPI(title="AI-Powered Code Integrity API", version="1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+import os
+ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+app.add_middleware(CORSMiddleware, allow_origins=ORIGINS,
                    allow_methods=["*"], allow_headers=["*"])
 app.include_router(router)
 
